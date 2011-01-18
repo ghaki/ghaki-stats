@@ -1,0 +1,23 @@
+= Ghaki Stats - Simple statistics.
+
+Ghaki Stats is simple tracker for counted statistics.
+
+== Download
+
+The latest version of Ghaki Stats can be found at
+
+* git:/home/ghaki/git-archive/ghaki-stats.git
+
+== Installation
+
+The preferred method of installing Ghaki Stats is through its GEM file.
+
+  % [sudo] gem install ghaki-stats-1.0.0.gem
+
+== License
+
+Ghaki Logger is released under the MIT license.
+
+== Support
+
+Contact mailto:gerald@kalafut.org
