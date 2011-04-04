@@ -1,40 +1,36 @@
-############################################################################
 require 'ghaki/stats/app'
 
-############################################################################
-module Ghaki module App module EngineTesting
-  begin
-    require 'ghaki/app/engine'
+describe Ghaki::App::Engine do
 
-    describe Ghaki::App::Engine do
-
-      context 'singleton' do
-        subject { Ghaki::App::Engine.instance }
-        it { should respond_to :stats }
-        it { should respond_to :stats= }
-        it { should respond_to :stats_opts }
-        it { should respond_to :stats_opts= }
-      end
-
-      context 'singleton methods' do
-        describe '#stats' do
-          subject { Ghaki::App::Engine.instance.stats }
-          specify { should be_an_instance_of(Ghaki::Stats::Base) }
-          specify { should equal(Ghaki::Stats::App.instance.stats ) }
-        end
-
-        describe '#stats_opts' do
-          subject { Ghaki::App::Engine.instance.stats_opts }
-          specify { should be_an_instance_of(::Hash) }
-        end
-      end
-
-    end
-
-  rescue LoadError
-    describe 'Ghaki::App::Engine' do
-      pending 'external library not available: <ghaki/app/engine>'
-    end
+  before(:all) do
+    @app_eng = Ghaki::App::Engine.instance
+    @sta_app = Ghaki::Stats::App.instance
   end
-end end end
-############################################################################
+
+  context 'singleton' do
+    subject { @app_eng }
+    it { should respond_to :stats }
+    it { should respond_to :stats= }
+    it { should respond_to :stats_opts }
+    it { should respond_to :stats_opts= }
+    it { should respond_to :stats_defs }
+    it { should respond_to :stats_defs= }
+  end
+
+  describe '#stats' do
+    subject { @app_eng.stats }
+    specify { should be_an_instance_of(Ghaki::Stats::Base) }
+    specify { should equal(@sta_app.stats ) }
+  end
+
+  describe '#stats_opts' do
+    subject { @app_eng.stats_opts }
+    specify { should be_an_instance_of(::Hash) }
+  end
+
+  describe '#stats_defs' do
+    subject { @app_eng.stats_defs }
+    specify { should be_an_instance_of(::Hash) }
+  end
+
+end

@@ -9,12 +9,12 @@ require 'rake/gempackagetask'
 
 RSpec::Core::RakeTask.new(:spec) do |t|
   t.pattern = 'spec/**/*_spec.rb'
-  t.rspec_opts = %w[--color -r spec/spec_helper]
+  t.rspec_opts = %w[--color]
   t.verbose = true
 end
 
 Rake::RDocTask.new('rdoc') do |t|
-  t.rdoc_files.include( 'README', 'lib/**/*./rb')
+  t.rdoc_files.include( 'README', 'lib/**/*.rb')
   t.main = 'README'
   t.title = 'Ghaki Stats API Documention'
 end

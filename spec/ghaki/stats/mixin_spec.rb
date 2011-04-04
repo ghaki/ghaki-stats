@@ -11,7 +11,7 @@ module Ghaki module Stats module MixinTesting
 
     context 'object including' do
       subject { UsingMixin.new }
-      it { should respond_to :stats }
+      it { should respond_to :stats  }
       it { should respond_to :stats= }
     end
 

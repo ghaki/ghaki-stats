@@ -1,18 +1,27 @@
-############################################################################
+require 'ghaki/app/mixable'
 require 'ghaki/stats/base'
 
-############################################################################
-module Ghaki
-  module Stats
-    module Mixin
+module Ghaki #:nodoc
+module Stats #:nodoc
 
-      attr_writer :stats
+  # Mixin stats object with auto-first use object creation.
+  #
+  # Note: Creates new Base stats object, does not grab copy from App Engine.
+  # ==== Example
+  #
+  #   class MyAction
+  #     include Ghaki::Stats::Mixin
+  #     def do_something
+  #       stats.incr 'Did', 'Something'
+  #     end
+  #   end
+  #
+  #   myact = MyAction.new
+  #   myact.do_something
 
-      def stats
-        @stats ||= Ghaki::Stats::Base.new
-      end
+  module Mixin
+    include Ghaki::App::Mixable
+    app_mixin_accessor Base, :stats
+  end
 
-    end # helper
-  end # namespace
-end # package
-############################################################################
+end end

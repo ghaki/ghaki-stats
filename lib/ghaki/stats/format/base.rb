@@ -1,33 +1,39 @@
 ############################################################################
-module Ghaki
-  module Stats module Format
-    class Base
+module Ghaki  #:nodoc:
+module Stats  #:nodoc:
+module Format #:nodoc:
 
-      ######################################################################
-      attr_accessor :title
+  # Base for Statistics Report formatting objects.
 
-      ######################################################################
-      def initialize opts={}
-        @title = opts[:title] || ''
-      end
+  class Base
 
-      ######################################################################
-      def dump stats, out, title=@title
-        dump_head stats, out, title
-        dump_body stats, out, title
-        dump_tail stats, out, title
-      end
+    attr_accessor :title # Name of statistics report.
 
-      def dump_head stats, out, title
-      end
+    def initialize opts={}
+      @title = opts[:title] || ''
+    end
 
-      def dump_body stats, out, title
-      end
+    # Dump output from statistics object.
 
-      def dump_tail stats, out, title
-      end
+    def dump stats, out, title=@title
+      dump_head stats, out, title
+      dump_body stats, out, title
+      dump_tail stats, out, title
+    end
 
-    end # class
-  end end # namespace
-end # package
-############################################################################
+    # Generate header of report.
+
+    def dump_head stats, out, title
+    end
+
+    # Generate body of report.
+    def dump_body stats, out, title
+    end
+
+    # Generate footer of report.
+
+    def dump_tail stats, out, title
+    end
+
+  end
+end end end

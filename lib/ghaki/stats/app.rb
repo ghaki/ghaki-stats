@@ -1,42 +1,14 @@
-############################################################################
-require 'singleton'
+require 'ghaki/app/plugin'
 require 'ghaki/stats/base'
 
-############################################################################
-module Ghaki module Stats
-  class App
-    include Singleton
+module Ghaki #:nodoc:
+module Stats #:nodoc:
 
-    #-----------------------------------------------------------------------
-    DEF_STATS_OPTS = {}
+  # Application wide statistics tracker.
 
-    #-----------------------------------------------------------------------
-    attr_writer :stats, :stats_opts
-
-    #-----------------------------------------------------------------------
-    def stats
-      @stats ||= Ghaki::Stats::Base.new( self.stats_opts )
-    end
-
-    #-----------------------------------------------------------------------
-    def stats_opts
-      @stats_opts ||= DEF_STATS_OPTS.dup
-    end
-
-    end # class
-end end # package
-############################################################################
-
-############################################################################
-begin
-  require 'ghaki/app/engine'
-  Ghaki::App::Engine.class_eval do
-    def stats      ; Ghaki::Stats::App.instance.stats       end
-    def stats= val ; Ghaki::Stats::App.instance.stats = val end 
-
-    def stats_opts      ; Ghaki::Stats::App.instance.stats_opts       end
-    def stats_opts= val ; Ghaki::Stats::App.instance.stats_opts = val end
+  class App < Ghaki::App::Plugin
+    app_plugin_make Base, :stats
+    app_plugin_link :stats
   end
-rescue LoadError
-end
-############################################################################
+
+end end
