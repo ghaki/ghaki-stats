@@ -133,7 +133,7 @@ module Stats #:nodoc
     # Writes statistics report to specified output file.
 
     def dump out_file, title=@title
-      fmt.dump @stats, out_file, title
+      format.dump @stats, out_file, title
     end
 
     # Logger specific dump. (DEPRECATED)
