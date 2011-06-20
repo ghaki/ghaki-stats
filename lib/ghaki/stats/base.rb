@@ -92,6 +92,18 @@ module Stats #:nodoc
       @stats[major][minor] = value
     end
 
+    def has? major, minor=nil
+      if @stats.has_key?(major)
+        if minor.nil?
+          true
+        else
+          @stats[major].has_key?(minor)
+        end
+      else
+        false
+      end
+    end
+
     # Get current value of stats count.
 
     def get major, minor
