@@ -1,13 +1,15 @@
 require 'ghaki/stats/base'
+require 'ghaki/stats/spec_helper'
 
 module Ghaki module Stats module Base_Testing
 describe Ghaki::Stats::Base do
+  include Ghaki::Stats::SpecHelper
 
   before(:each) do
-    @subj = Ghaki::Stats::Base.new
+    setup_safe_stats
   end
 
-  subject { @subj }
+  subject { @stats }
 
   it { should respond_to :title }
   it { should respond_to :title= }
@@ -156,15 +158,12 @@ describe Ghaki::Stats::Base do
   end
 
   def setup_fake_values
-    @subj.put 'a', 'b', 3
-    @subj.put 'c', 'd', 5
+    @stats.put 'a', 'b', 3
+    @stats.put 'c', 'd', 5
     @expected_hash = { 'a' => { 'b' => 3 }, 'c' => { 'd' => 5 } }
   end
   def setup_fake_output
     @out = stub_everything()
-  end
-  def stub_formatter
-    subject.format.expects(:dump).once
   end
 
   describe '#dump' do
@@ -182,7 +181,6 @@ describe Ghaki::Stats::Base do
       subject.flush @out, 'msg'
     end
     it 'clears all values' do
-      stub_formatter
       subject.flush @out, 'msg'
       subject.has?('a','b').should be_false
       subject.has?('c','d').should be_false
@@ -192,7 +190,6 @@ describe Ghaki::Stats::Base do
   describe '#log_dump' do
     before(:each) do setup_fake_output end
     it 'warns of deprecation' do
-      stub_formatter
       subject.expects(:warn).with(regexp_matches(%r{\[DEPRECATED\]})).once
       subject.log_flush @out, 'msg'
     end
@@ -206,7 +203,6 @@ describe Ghaki::Stats::Base do
   describe '#log_flush' do
     before(:each) do setup_fake_output end
     it 'warns of deprecation' do
-      stub_formatter
       subject.expects(:warn).with(regexp_matches(%r{\[DEPRECATED\]})).once
       subject.log_flush @out, 'msg'
     end

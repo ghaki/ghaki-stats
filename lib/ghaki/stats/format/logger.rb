@@ -13,9 +13,9 @@ module Format #:nodoc:
 
     def dump_head stats, log, title
       if title.empty?
-        log.box title
-      else
         log.minor.began 'dumping statistics'
+      else
+        log.box title
       end
     end
 
@@ -34,10 +34,10 @@ module Format #:nodoc:
     # Dump footer info, which in this case is a minor ended log.
 
     def dump_tail stats, log, title
-      unless title == ''
-        log.liner
-      else
+      if title.empty?
         log.minor.ended 'dumping statistics'
+      else
+        log.liner
       end
     end
 
