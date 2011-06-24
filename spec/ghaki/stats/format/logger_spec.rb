@@ -1,10 +1,14 @@
-require File.join(File.dirname(__FILE__),'../../..', 'mocha_helper')
 require 'ghaki/stats/format/logger'
+require 'ghaki/logger/spec_helper'
+
+require File.join(File.dirname(__FILE__),'../../..', 'mocha_helper')
 
 module Ghaki module Stats module Format module Logger_Testing
-describe Ghaki::Stats::Format::Logger do
+describe Format::Logger do
+  include Ghaki::Logger::SpecHelper
 
   before(:all) do
+    setup_safe_logger
     @subj = Format::Logger.new
     @stats = {
       'a' => { 'b' => 12 },
@@ -12,13 +16,6 @@ describe Ghaki::Stats::Format::Logger do
     }
     @out = 'file'
     @title = 'msg'
-    @logger = stub_everything()
-    @logger.stubs( :minor => stub_everything() )
-
-    @log_data = []
-    @logger.stubs(:puts) do |s|
-      @log_data.push s
-    end
   end
 
   subject { @subj }
@@ -36,6 +33,10 @@ describe Ghaki::Stats::Format::Logger do
       it 'logs header title' do
         @logger.expects(:box).with(@title).once
         subject.dump_head @stats, @logger, @title
+        @logger.with_file do |file|
+          file.rewind
+          puts "WROTE #{file.read}"
+        end
       end
     end
   end
