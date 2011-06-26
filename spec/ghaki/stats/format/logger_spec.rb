@@ -7,7 +7,7 @@ module Ghaki module Stats module Format module Logger_Testing
 describe Format::Logger do
   include Ghaki::Logger::SpecHelper
 
-  before(:all) do
+  before(:each) do
     setup_safe_logger
     @subj = Format::Logger.new
     @stats = {
@@ -33,10 +33,6 @@ describe Format::Logger do
       it 'logs header title' do
         @logger.expects(:box).with(@title).once
         subject.dump_head @stats, @logger, @title
-        @logger.with_file do |file|
-          file.rewind
-          puts "WROTE #{file.read}"
-        end
       end
     end
   end
@@ -44,7 +40,13 @@ describe Format::Logger do
   describe '#dump_body' do
     it 'writes output' do
       subject.dump_body @stats, @logger, @title
-      pending
+      @logger.with_file do |file|
+        file.rewind
+        file.read.split("\n").should == [
+          '# a:', sprintf('#     %8s : %c', 12, 'b'),
+          '# c:', sprintf('#     %8s : %s', 34, 'd'),
+        ]
+      end
     end
   end
 
