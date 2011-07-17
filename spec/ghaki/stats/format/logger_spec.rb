@@ -20,7 +20,7 @@ describe Format::Logger do
 
   subject { @subj }
 
-  it { should be_kind_of(Format::Base) }
+  it { should be_kind_of(Format::Output) }
 
   describe '#dump_head' do
     context 'with no title' do
@@ -33,19 +33,6 @@ describe Format::Logger do
       it 'logs header title' do
         @logger.expects(:box).with(@title).once
         subject.dump_head @stats, @logger, @title
-      end
-    end
-  end
-
-  describe '#dump_body' do
-    it 'writes output' do
-      subject.dump_body @stats, @logger, @title
-      @logger.with_file do |file|
-        file.rewind
-        file.read.split("\n").should == [
-          '# a:', sprintf('#     %8s : %c', 12, 'b'),
-          '# c:', sprintf('#     %8s : %s', 34, 'd'),
-        ]
       end
     end
   end

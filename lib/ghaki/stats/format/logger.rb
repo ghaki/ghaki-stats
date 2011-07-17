@@ -1,4 +1,4 @@
-require 'ghaki/stats/format/base'
+require 'ghaki/stats/format/output'
 
 ############################################################################
 module Ghaki  #:nodoc:
@@ -7,7 +7,7 @@ module Format #:nodoc:
 
   # Default formatting for generating Statistics Reports using a Logger object.
 
-  class Logger < Base
+  class Logger < Output
 
     # Dump heading info, which in this case is a minor began log.
 
@@ -16,18 +16,6 @@ module Format #:nodoc:
         log.minor.began 'dumping statistics'
       else
         log.box title
-      end
-    end
-
-    # Dumps body of stats.
-
-    def dump_body stats, log, title
-      stats.keys.sort.each do |major|
-        log.puts major + ':'
-        stats[major].keys.sort.each do |minor|
-          count = stats[major][minor]
-          log.puts '    ' + count.to_s.rjust(8) + ' : ' + minor
-        end
       end
     end
 
