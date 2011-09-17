@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rspec', '>= 2.4.0'
   s.add_development_dependency 'mocha', '>= 0.9.12'
+  s.add_development_dependency 'rdoc', '>= 3.9.4'
 
   s.add_development_dependency 'ghaki-logger', '>= 1.1.4'
 

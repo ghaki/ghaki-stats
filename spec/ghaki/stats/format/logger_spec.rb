@@ -1,8 +1,6 @@
 require 'ghaki/stats/format/logger'
 require 'ghaki/logger/spec_helper'
 
-require File.join(File.dirname(__FILE__),'../../..', 'mocha_helper')
-
 module Ghaki module Stats module Format module Logger_Testing
 describe Format::Logger do
   include Ghaki::Logger::SpecHelper

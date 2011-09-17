@@ -1,5 +1,3 @@
-require File.join(File.dirname(__FILE__),'../..', 'mocha_helper')
-
 require 'ghaki/stats/spec_helper'
 
 module Ghaki module Stats module SpecHelper_Testing
