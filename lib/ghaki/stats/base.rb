@@ -1,4 +1,4 @@
-############################################################################
+require 'ghaki/stats/errors'
 require 'ghaki/stats/format/logger'
 
 ############################################################################
@@ -92,6 +92,8 @@ module Stats #:nodoc
       @stats[major][minor] = value
     end
 
+    # Is stat present?
+
     def has? major, minor=nil
       if @stats.has_key?(major)
         if minor.nil?
@@ -104,12 +106,45 @@ module Stats #:nodoc
       end
     end
 
-    # Get current value of stats count.
+    # Is stat missing?
+
+    def lacks? major, minor=nil
+      ! has?(major,minor)
+    end
+
+    # Throw exception if stat is mising.
+
+    def has! major, minor=nil
+      return self if has? major, minor
+      if minor.nil?
+        raise MissingMajorStatsError.new(major)
+      else
+        raise MissingMinorStatsError.new(major, minor)
+      end
+    end
+
+    # Get current value of stats count. Defaults to zero when not present.
 
     def get major, minor
       return 0 unless @stats.has_key?(major)
       return 0 unless @stats[major].has_key?(minor)
       return @stats[major][minor]
+    end
+
+    # Get current value or throw exception.
+
+    def get! major, minor
+      has!(major,minor).get(major,minor)
+    end
+
+    # Get current value of stats count. Defaults to specified when not present.
+
+    def get? major, minor, defval=nil
+      if has? major, minor
+        get major, minor
+      else
+        defval
+      end
     end
 
     # Set stats value if given value is greater than current value.

@@ -1,3 +1,4 @@
+require 'ghaki/stats/errors'
 require 'ghaki/stats/base'
 require 'ghaki/stats/spec_helper'
 
@@ -23,21 +24,75 @@ describe Ghaki::Stats::Base do
   end
 
   describe '#has?' do
-    it 'detects major-only missing' do
-      subject.put 'a', 'b', 3
-      subject.has?('c').should be_false
+    context 'using major only' do
+      it 'detects missing' do
+        subject.put 'a', 'b', 3
+        subject.has?('c').should be_false
+      end
+      it 'detects present' do
+        subject.put 'a', 'b', 3
+        subject.has?('a').should be_true
+      end
     end
-    it 'detects major-only present' do
-      subject.put 'a', 'b', 3
-      subject.has?('a').should be_true
+    context 'using major and minor' do
+      it 'detects missing' do
+        subject.put 'a', 'b', 3
+        subject.has?('a','c').should be_false
+      end
+      it 'detects present' do
+        subject.put 'a', 'b', 3
+        subject.has?('a','b').should be_true
+      end
     end
-    it 'detects missing minor' do
-      subject.put 'a', 'b', 3
-      subject.has?('a','c').should be_false
+  end
+
+  describe '#lacks?' do
+    context 'using major only' do
+      it 'detects missing' do
+        subject.put 'a', 'b', 3
+        subject.lacks?('c').should be_true
+      end
+      it 'detects present' do
+        subject.put 'a', 'b', 3
+        subject.lacks?('a').should be_false
+      end
     end
-    it 'detects present minor' do
-      subject.put 'a', 'b', 3
-      subject.has?('a','b').should be_true
+    context 'using major and minor' do
+      it 'detects missing' do
+        subject.put 'a', 'b', 3
+        subject.lacks?('a','c').should be_true
+      end
+      it 'detects present' do
+        subject.put 'a', 'b', 3
+        subject.lacks?('a','b').should be_false
+      end
+    end
+  end
+
+  describe '#has!' do
+    context 'using major only' do
+      it 'fails on missing' do
+        subject.put 'a', 'b', 3
+        lambda do
+          subject.has!('c')
+        end.should raise_error(MissingMajorStatsError)
+      end
+      it 'detects present' do
+        subject.put 'a', 'b', 3
+        subject.has!('a').should == subject
+      end
+    end
+    context 'using major and minor' do
+      it 'fails on missing' do
+        subject.put 'a', 'b', 3
+        lambda do
+          subject.has!('a','c')
+        end.should raise_error(MissingMinorStatsError)
+      end
+      it 'detects present' do
+        subject.put 'a', 'b', 3
+        subject.has!('a','b').should == subject
+      end
     end
   end
 
@@ -48,6 +103,36 @@ describe Ghaki::Stats::Base do
     end
     it "defaults to zero when not set" do
       subject.get('inputs','bogus').should == 0
+    end
+  end
+
+  describe '#get?' do
+    context 'when stat is present' do
+      it 'gets value' do
+        subject.put 'inputs','present',23
+        subject.get?('inputs','present').should == 23
+      end
+    end
+    context 'when stat is missing' do
+      it 'returns nil without specified default' do
+        subject.get?('inputs','bogus').should be_nil
+      end
+      it 'returns specified default' do
+        subject.get?('inputs','bogus',54).should == 54
+      end
+    end
+  end
+
+  describe '#get!' do
+    it 'fails on missing' do
+      subject.put 'a', 'b', 3
+      lambda do
+        subject.get!('c','b')
+      end.should raise_error(MissingMinorStatsError)
+    end
+    it 'detects present' do
+      subject.put 'a', 'b', 3
+      subject.has!('a','b').should == subject
     end
   end
 
