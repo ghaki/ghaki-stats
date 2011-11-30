@@ -1,45 +1,38 @@
-GIT
-  remote: ghaki@ghaki.com:/home/ghaki/git-archive/ghaki-app.git
-  revision: 8cb3b49b8539f7441be625713668b24ff4a7962d
-  specs:
-    ghaki-app (1.1.3)
-
-GIT
-  remote: ghaki@ghaki.com:/home/ghaki/git-archive/ghaki-logger.git
-  revision: e6ef3811cb6e8a2822baf3619bded61fb3b0e8ed
-  specs:
-    ghaki-logger (1.1.6)
-      ghaki-app (>= 1.1.2)
-
 PATH
   remote: .
   specs:
-    ghaki-stats (1.1.3)
-      ghaki-app (>= 1.1.2)
+    ghaki-stats (2011.11.29.1)
+      ghaki-app (>= 2011.11.29.1)
 
 GEM
   remote: http://rubygems.org/
   specs:
     diff-lcs (1.1.3)
+    ghaki-app (2011.11.29.1)
+    ghaki-bool (2011.11.29.1)
+    ghaki-logger (2011.11.29.1)
+      ghaki-app (>= 2011.11.29.1)
+      ghaki-bool (>= 2011.11.29.1)
+    json (1.6.2)
     metaclass (0.0.1)
     mocha (0.10.0)
       metaclass (~> 0.0.1)
-    rdoc (3.9.4)
-    rspec (2.6.0)
-      rspec-core (~> 2.6.0)
-      rspec-expectations (~> 2.6.0)
-      rspec-mocks (~> 2.6.0)
-    rspec-core (2.6.4)
-    rspec-expectations (2.6.0)
+    rdoc (3.11)
+      json (~> 1.4)
+    rspec (2.7.0)
+      rspec-core (~> 2.7.0)
+      rspec-expectations (~> 2.7.0)
+      rspec-mocks (~> 2.7.0)
+    rspec-core (2.7.1)
+    rspec-expectations (2.7.0)
       diff-lcs (~> 1.1.2)
-    rspec-mocks (2.6.0)
+    rspec-mocks (2.7.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  ghaki-app!
-  ghaki-logger!
+  ghaki-logger (>= 2011.11.29.1)
   ghaki-stats!
   mocha (>= 0.9.12)
   rdoc (>= 3.9.4)
